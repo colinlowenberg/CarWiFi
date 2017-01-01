@@ -24,9 +24,9 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId "com.vrem.wifianalyzer.BETA"
+        applicationId "com.vrem.wifianalyzer.location"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode
         versionName
     }
@@ -88,6 +88,7 @@ dependencies {
     testCompile 'com.googlecode.junit-toolbox:junit-toolbox:2.2'
     testCompile 'org.robolectric:robolectric:3.1.4'
     testCompile 'org.robolectric:shadows-support-v4:3.1.4'
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
 }
 
 updateVersion()

@@ -18,9 +18,11 @@
 
 package com.vrem.wifianalyzer;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,6 +54,8 @@ import org.apache.commons.lang3.StringUtils;
 import static android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 
 public class MainActivity extends AppCompatActivity implements OnSharedPreferenceChangeListener, OnNavigationItemSelectedListener {
+    private static final int PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION = 0x123450;
+
     private MainReload mainReload;
     private NavigationMenuView navigationMenuView;
     private NavigationMenu startNavigationMenu;
@@ -60,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        checkPermissions();
+
         MainContext mainContext = MainContext.INSTANCE;
         mainContext.initialize(this, isLargeScreenLayout());
 
@@ -93,6 +99,29 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
         connectionView = new ConnectionView(this);
         Scanner scanner = mainContext.getScanner();
         scanner.register(connectionView);
+    }
+
+    private void checkPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION:
+                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    // permission not granted - exit
+                    finish();
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     ConnectionView getConnectionView() {
