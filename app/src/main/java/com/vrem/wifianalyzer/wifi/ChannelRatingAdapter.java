@@ -21,8 +21,6 @@ package com.vrem.wifianalyzer.wifi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -108,11 +106,7 @@ class ChannelRatingAdapter extends ArrayAdapter<WiFiChannel> implements UpdateNo
         ratingBar.setMax(size);
         ratingBar.setNumStars(size);
         ratingBar.setRating(strength.ordinal() + 1);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            ratingBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(getContext(), R.color.success_color), PorterDuff.Mode.SRC_ATOP);
-        } else {
-            ratingBar.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), strength.colorResource())));
-        }
+        ratingBar.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), strength.colorResource())));
 
         return view;
     }
