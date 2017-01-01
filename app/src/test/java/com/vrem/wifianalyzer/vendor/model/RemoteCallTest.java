@@ -42,7 +42,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = 23)
 public class RemoteCallTest {
     private static final String MAC_ADDRESS = "00:23:AB:7B:58:99";
     private static final String VENDOR_NAME = "CISCO SYSTEMS, INC.";

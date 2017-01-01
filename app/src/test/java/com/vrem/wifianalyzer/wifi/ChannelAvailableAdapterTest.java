@@ -41,7 +41,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = 23)
 public class ChannelAvailableAdapterTest {
     private ChannelAvailableAdapter fixture;
     private WiFiChannelCountry wiFiChannelCountry;

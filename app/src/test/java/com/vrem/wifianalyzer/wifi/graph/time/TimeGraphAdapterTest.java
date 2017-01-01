@@ -37,7 +37,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = 23)
 public class TimeGraphAdapterTest {
 
     private TimeGraphAdapter fixture;
