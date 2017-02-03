@@ -25,9 +25,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.vrem.wifianalyzer.BuildConfig;
+import com.vrem.wifianalyzer.Configuration;
+import com.vrem.wifianalyzer.MainContextHelper;
 import com.vrem.wifianalyzer.R;
 import com.vrem.wifianalyzer.RobolectricUtil;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,20 +48,27 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 23)
+@Config(constants = BuildConfig.class)
 public class AboutActivityTest {
 
     private AboutActivity fixture;
+    private Configuration configuration;
 
     @Before
     public void setUp() {
         RobolectricUtil.INSTANCE.getActivity();
-        fixture = Robolectric.setupActivity(AboutActivity.class);
+        configuration = MainContextHelper.INSTANCE.getConfiguration();
+    }
+
+    @After
+    public void tearDown() {
+        MainContextHelper.INSTANCE.restore();
     }
 
     @Test
     public void testTitle() throws Exception {
         // setup
+        fixture = Robolectric.setupActivity(AboutActivity.class);
         String expected = fixture.getResources().getString(R.string.action_about);
         // execute
         ActionBar actual = fixture.getSupportActionBar();
@@ -73,6 +83,7 @@ public class AboutActivityTest {
         // setup
         MenuItem menuItem = mock(MenuItem.class);
         when(menuItem.getItemId()).thenReturn(android.R.id.home);
+        fixture = Robolectric.setupActivity(AboutActivity.class);
         // execute
         boolean actual = fixture.onOptionsItemSelected(menuItem);
         // validate
@@ -84,6 +95,7 @@ public class AboutActivityTest {
     public void testOnOptionsItemSelected() throws Exception {
         // setup
         MenuItem menuItem = mock(MenuItem.class);
+        fixture = Robolectric.setupActivity(AboutActivity.class);
         // execute
         boolean actual = fixture.onOptionsItemSelected(menuItem);
         // validate
@@ -95,6 +107,24 @@ public class AboutActivityTest {
         // setup
         String expected = BuildConfig.VERSION_NAME + " - " + BuildConfig.VERSION_CODE
             + " (" + Build.VERSION.RELEASE + "-" + Build.VERSION.SDK_INT + ")";
+        when(configuration.isSizeAvailable()).thenReturn(false);
+        when(configuration.isLargeScreen()).thenReturn(false);
+        fixture = Robolectric.setupActivity(AboutActivity.class);
+        // execute
+        TextView actual = (TextView) fixture.findViewById(R.id.about_version_info);
+        // validate
+        assertNotNull(actual);
+        assertEquals(expected, actual.getText());
+    }
+
+    @Test
+    public void testVersionNumberWithConfiguration() throws Exception {
+        // setup
+        String expected = BuildConfig.VERSION_NAME + " - " + BuildConfig.VERSION_CODE + "SL"
+            + " (" + Build.VERSION.RELEASE + "-" + Build.VERSION.SDK_INT + ")";
+        when(configuration.isSizeAvailable()).thenReturn(true);
+        when(configuration.isLargeScreen()).thenReturn(true);
+        fixture = Robolectric.setupActivity(AboutActivity.class);
         // execute
         TextView actual = (TextView) fixture.findViewById(R.id.about_version_info);
         // validate
@@ -104,6 +134,8 @@ public class AboutActivityTest {
 
     @Test
     public void testPackageName() throws Exception {
+        // setup
+        fixture = Robolectric.setupActivity(AboutActivity.class);
         // execute
         TextView actual = (TextView) fixture.findViewById(R.id.about_package_name);
         // validate
@@ -114,9 +146,10 @@ public class AboutActivityTest {
     @Test
     public void testApplicationName() throws Exception {
         // setup
-        String expectedName = fixture.getString(R.string.app_name);
+        fixture = Robolectric.setupActivity(AboutActivity.class);
+        String expectedName = fixture.getString(R.string.about_application_name);
         // execute
-        TextView actual = (TextView) fixture.findViewById(R.id.about_app_name);
+        TextView actual = (TextView) fixture.findViewById(R.id.about_application_name);
         // validate
         assertNotNull(actual);
         assertEquals(expectedName, actual.getText());
@@ -125,6 +158,7 @@ public class AboutActivityTest {
     @Test
     public void testWriteReview() throws Exception {
         // setup
+        fixture = Robolectric.setupActivity(AboutActivity.class);
         View view = fixture.findViewById(R.id.writeReview);
         // execute
         fixture.writeReview(view);

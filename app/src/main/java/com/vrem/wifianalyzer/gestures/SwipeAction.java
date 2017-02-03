@@ -16,32 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.vrem.wifianalyzer.navigation;
+package com.vrem.wifianalyzer.gestures;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.view.MenuItem;
 
-import com.vrem.wifianalyzer.MainActivity;
-
-class ActivityItem implements NavigationMenuItem {
-    private final Class<? extends Activity> activity;
-
-    ActivityItem(@NonNull Class<? extends Activity> activity) {
-        this.activity = activity;
-    }
-
-    @Override
-    public void activate(@NonNull MainActivity mainActivity, @NonNull MenuItem menuItem, @NonNull NavigationMenu navigationMenu) {
-        mainActivity.startActivity(createIntent(mainActivity));
-    }
-
-    Intent createIntent(@NonNull MainActivity mainActivity) {
-        return new Intent(mainActivity, activity);
-    }
-
-    Class<? extends Activity> getActivity() {
-        return activity;
-    }
+public interface SwipeAction {
+    void swipe(@NonNull SwipeDirection swipeDirection);
 }

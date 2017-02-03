@@ -38,7 +38,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 23)
+@Config(constants = BuildConfig.class)
 public class NavigationMenuViewTest {
     private MainActivity mainActivity;
     private NavigationMenuView fixture;
@@ -64,7 +64,7 @@ public class NavigationMenuViewTest {
         assertEquals(NavigationMenu.values().length, menu.size());
 
         for (NavigationGroup navigationGroup : NavigationGroup.values()) {
-            for (NavigationMenu navigationMenu : navigationGroup.navigationMenu()) {
+            for (NavigationMenu navigationMenu : navigationGroup.getNavigationMenus()) {
                 MenuItem actual = menu.getItem(navigationMenu.ordinal());
                 assertEquals(navigationGroup.ordinal(), actual.getGroupId());
                 assertEquals(mainActivity.getResources().getString(navigationMenu.getTitle()), actual.getTitle());

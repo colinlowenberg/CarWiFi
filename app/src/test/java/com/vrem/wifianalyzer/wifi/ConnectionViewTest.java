@@ -56,7 +56,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 23)
+@Config(constants = BuildConfig.class)
 public class ConnectionViewTest {
     private static final String SSID = "SSID";
     private static final String BSSID = "BSSID";
@@ -163,7 +163,7 @@ public class ConnectionViewTest {
     }
 
     @Test
-    public void testNoDataIsGoneWithNonWiFiBandSwitchableNavigationMenu() throws Exception {
+    public void testNoDataIsGoneWithNavigationMenuThatDoesNotHaveOptionMenu() throws Exception {
         // setup
         mainActivity.getNavigationMenuView().setCurrentNavigationMenu(NavigationMenu.VENDOR_LIST);
         when(wiFiData.getConnection()).thenReturn(withConnection(WiFiAdditional.EMPTY));

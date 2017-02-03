@@ -18,9 +18,10 @@
 
 package com.vrem.wifianalyzer;
 
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.vrem.wifianalyzer.menu.OptionMenu;
 import com.vrem.wifianalyzer.navigation.NavigationMenu;
 import com.vrem.wifianalyzer.navigation.NavigationMenuView;
 import com.vrem.wifianalyzer.wifi.band.WiFiBand;
@@ -30,55 +31,44 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 23)
+@Config(constants = BuildConfig.class)
 public class MainActivityTest {
 
     private MainActivity fixture;
 
     @Before
     public void setUp() {
-        fixture = RobolectricUtil.INSTANCE.getActivity();
+        fixture = Robolectric.setupActivity(MainActivity.class);
     }
 
     @After
     public void tearDown() {
-        fixture.getNavigationMenuView().setCurrentNavigationMenu(NavigationMenu.ACCESS_POINTS);
         MainContextHelper.INSTANCE.restore();
     }
 
     @Test
     public void testMainActivity() throws Exception {
-        // setup
-        WiFiBand currentWiFiBand = WiFiBand.GHZ2;
-        String expected = makeSubtitle(currentWiFiBand);
-        // execute
-        CharSequence actual = fixture.getSupportActionBar().getSubtitle();
-        // validate
-        assertEquals(expected, actual.toString());
         assertTrue(MainContext.INSTANCE.getScanner().isRunning());
     }
 
     @Test
     public void testClickingOnToolbarTogglesWiFiBand() throws Exception {
-        // setup
-        String expectedGHZ2 = makeSubtitle(WiFiBand.GHZ2);
-        String expectedGHZ5 = makeSubtitle(WiFiBand.GHZ5);
-        // execute & validate
-        assertEquals(NavigationMenu.ACCESS_POINTS, fixture.getNavigationMenuView().getCurrentNavigationMenu());
-
-        assertEquals(expectedGHZ2, fixture.getSupportActionBar().getSubtitle().toString());
+        // execute and validate
+        assertEquals(WiFiBand.GHZ2, MainContext.INSTANCE.getSettings().getWiFiBand());
         fixture.findViewById(R.id.toolbar).performClick();
-        assertEquals(expectedGHZ5, fixture.getSupportActionBar().getSubtitle().toString());
+        assertEquals(WiFiBand.GHZ5, MainContext.INSTANCE.getSettings().getWiFiBand());
         fixture.findViewById(R.id.toolbar).performClick();
-        assertEquals(expectedGHZ2, fixture.getSupportActionBar().getSubtitle().toString());
+        assertEquals(WiFiBand.GHZ2, MainContext.INSTANCE.getSettings().getWiFiBand());
     }
 
     @Test
@@ -86,32 +76,58 @@ public class MainActivityTest {
         // setup
         NavigationMenuView navigationMenuView = fixture.getNavigationMenuView();
         navigationMenuView.setCurrentNavigationMenu(NavigationMenu.VENDOR_LIST);
-        String expectedGHZ2 = makeSubtitle(WiFiBand.GHZ2);
         // execute and validate
-        assertEquals(expectedGHZ2, fixture.getSupportActionBar().getSubtitle().toString());
+        assertEquals(WiFiBand.GHZ2, MainContext.INSTANCE.getSettings().getWiFiBand());
         fixture.findViewById(R.id.toolbar).performClick();
-        assertEquals(expectedGHZ2, fixture.getSupportActionBar().getSubtitle().toString());
+        assertEquals(WiFiBand.GHZ2, MainContext.INSTANCE.getSettings().getWiFiBand());
     }
 
     @Test
-    public void testOnPause() throws Exception {
+    public void testOnPauseCallsOptionMenuPause() throws Exception {
         // setup
-        Scanner scanner = MainContextHelper.INSTANCE.getScanner();
+        OptionMenu optionMenu = mock(OptionMenu.class);
+        fixture.setOptionMenu(optionMenu);
         // execute
         fixture.onPause();
         // validate
-        verify(scanner).pause();
-        fixture.onResume();
+        verify(optionMenu).pause();
     }
 
     @Test
-    public void testOnResume() throws Exception {
+    public void testOnResumeCallsOptionMenuResume() throws Exception {
         // setup
-        Scanner scanner = MainContextHelper.INSTANCE.getScanner();
+        OptionMenu optionMenu = mock(OptionMenu.class);
+        fixture.setOptionMenu(optionMenu);
         // execute
         fixture.onResume();
         // validate
-        verify(scanner).resume();
+        verify(optionMenu).resume();
+    }
+
+    @Test
+    public void testOnCreateOptionsMenu() throws Exception {
+        // setup
+        Menu menu = mock(Menu.class);
+        OptionMenu optionMenu = mock(OptionMenu.class);
+        fixture.setOptionMenu(optionMenu);
+        // execute
+        boolean actual = fixture.onCreateOptionsMenu(menu);
+        // validate
+        assertTrue(actual);
+        verify(optionMenu).create(fixture, menu);
+    }
+
+    @Test
+    public void testOnOptionsItemSelected() throws Exception {
+        // setup
+        MenuItem menuItem = mock(MenuItem.class);
+        OptionMenu optionMenu = mock(OptionMenu.class);
+        fixture.setOptionMenu(optionMenu);
+        // execute
+        boolean actual = fixture.onOptionsItemSelected(menuItem);
+        // validate
+        assertTrue(actual);
+        verify(optionMenu).select(menuItem);
     }
 
     @Test
@@ -122,19 +138,6 @@ public class MainActivityTest {
         fixture.onDestroy();
         // validate
         verify(scanner).unregister(fixture.getConnectionView());
-    }
-
-    private String makeSubtitle(@NonNull WiFiBand currentWiFiBand) {
-        int color = ContextCompat.getColor(fixture, R.color.connected);
-        String subtitleText = makeSubtitleText("<font color='" + color + "'><strong>", "</strong></font>", "<small>", "</small>");
-        if (WiFiBand.GHZ5.equals(currentWiFiBand)) {
-            subtitleText = makeSubtitleText("<small>", "</small>", "<font color='" + color + "'><strong>", "</strong></font>");
-        }
-        return fixture.fromHtml(subtitleText).toString();
-    }
-
-    private String makeSubtitleText(@NonNull String tag1, @NonNull String tag2, @NonNull String tag3, @NonNull String tag4) {
-        return tag1 + WiFiBand.GHZ2.getBand() + tag2 + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tag3 + WiFiBand.GHZ5.getBand() + tag4;
     }
 
 }

@@ -1,6 +1,6 @@
 # WiFi Analyzer (open-source)
 
-Optimize your WiFi network using WiFi Analyzer (open-source) by examining surrounding WiFi networks, measuring their signal strength as well as identifying crowded channels.
+<img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/ic_launcher-web.png" alt="Laucher Icon" height="50"> Optimize your WiFi network using WiFi Analyzer (open-source) by examining surrounding WiFi networks, measuring their signal strength as well as identifying crowded channels.
 
 ### Android OS Requirements
 * Minimum: Jelly Bean (Version 4.1 - API 16)
@@ -25,16 +25,22 @@ This is the official repository of WiFi Analyzer (open-source).
 * Graph channels signal strength
 * Graph Access Point signal strength over time
 * Analyze WiFi networks to rate channels
-* HT/VHT Detection (Requires Android OS 6+)
+* HT/VHT Detection - 40/80/160MHz (Requires Android OS 6+)
 * Access Point view complete or compact
 * Export access points details
 * Dark or Light theme available
+* Pause/Resume scanning
+
+**Please note WiFi Analyzer is not a WiFi password cracking or phishing tool.**
+
  
 ## Usage Tips
 * Tap the title bar to switch between 2.4 and 5 GHz WiFi band.
 * Swipe to manually refresh screen content.
 * SSID with (***) means it is hidden.
 * Distance to the Access Point is estimated.
+* Access Point security: <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/res/drawable-hdpi/ic_lock_black_18dp.png" alt="WPA2/WPA" height="20"> WPA2/WPA; <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/res/drawable-hdpi/ic_lock_outline_black_18dp.png" alt="WEP/WPS" height="20"> WEP/WPS; <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/res/drawable-hdpi/ic_lock_open_black_18dp.png" alt="Disabled" height="20"> Disabled
+* Saved networks <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/res/drawable-hdpi/ic_tag_faces_black_18dp.png" alt="Saved Networks" height="20">
 
 ## How-to
 * [How to guide](http://translate.google.com/translate?js=n&sl=auto&tl=en&u=http://www.svetandroida.cz/aplikace-wifi-analyzer-open-source-201605)
@@ -47,7 +53,15 @@ Bug reports and feature requests can be submitted [here](https://github.com/VREM
 ## License
 WiFi Analyzer is licensed under the GNU General Public License v3.0 (GPLv3).
 
-You can find the license text [here](http://www.gnu.org/licenses/gpl-3.0.html).
+### GPLv3 License key requirements:
+* Disclose Source
+* License and Copyright Notice
+* Same License
+* State Changes
+
+[GNU General Public License v3.0 (GPLv3) Explained in Plain English](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3))
+
+[GNU General Public License v3.0 (GPLv3)](http://www.gnu.org/licenses/gpl-3.0.html).
 
 ## WiFi Analyzer Build
 
