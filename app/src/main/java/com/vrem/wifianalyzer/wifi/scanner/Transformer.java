@@ -34,7 +34,6 @@ import com.vrem.wifianalyzer.wifi.model.WiFiUtils;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 class Transformer {
