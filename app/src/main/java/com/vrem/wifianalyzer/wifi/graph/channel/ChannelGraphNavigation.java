@@ -24,9 +24,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.vrem.wifianalyzer.Configuration;
 import com.vrem.wifianalyzer.MainContext;
@@ -35,130 +32,101 @@ import com.vrem.wifianalyzer.settings.Settings;
 import com.vrem.wifianalyzer.wifi.band.WiFiBand;
 import com.vrem.wifianalyzer.wifi.band.WiFiChannel;
 import com.vrem.wifianalyzer.wifi.band.WiFiChannels;
+import com.vrem.wifianalyzer.wifi.band.WiFiChannelsGHZ5;
 import com.vrem.wifianalyzer.wifi.graph.tools.GraphConstants;
 import com.vrem.wifianalyzer.wifi.scanner.Scanner;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 class ChannelGraphNavigation implements GraphConstants {
-    private final List<NavigationItem> navigationItems = new ArrayList<>();
-    private final Configuration configuration;
-    private final Context context;
+    static final Map<Pair<WiFiChannel, WiFiChannel>, Integer> ids = new HashMap<>();
 
-    ChannelGraphNavigation(@NonNull Context context, @NonNull Configuration configuration) {
-        this.context = context;
-        this.configuration = configuration;
-        makeNavigationItems();
+    static {
+        ids.put(WiFiChannelsGHZ5.SET1, R.id.graphNavigationSet1);
+        ids.put(WiFiChannelsGHZ5.SET2, R.id.graphNavigationSet2);
+        ids.put(WiFiChannelsGHZ5.SET3, R.id.graphNavigationSet3);
     }
 
-    List<NavigationItem> getNavigationItems() {
-        return navigationItems;
+    private final Context context;
+    private final View view;
+
+    ChannelGraphNavigation(@NonNull View view, @NonNull Context context) {
+        this.view = view;
+        this.context = context;
+        this.view.setVisibility(View.GONE);
+        for (Pair<WiFiChannel, WiFiChannel> pair : ids.keySet()) {
+            view.findViewById(ids.get(pair)).setOnClickListener(new SetOnClickListener(pair));
+        }
     }
 
     void update() {
-        List<NavigationItem> visible = getVisibleNavigationItems();
-
-        Pair<WiFiChannel, WiFiChannel> selectedWiFiChannelPair = configuration.getWiFiChannelPair();
-        for (NavigationItem navigationItem : navigationItems) {
-            Button button = navigationItem.getButton();
-            Pair<WiFiChannel, WiFiChannel> wiFiChannelPair = navigationItem.getWiFiChannelPair();
-            if (visible.size() > 1 && visible.contains(navigationItem)) {
-                button.setVisibility(View.VISIBLE);
-                setSelectedButton(button, wiFiChannelPair.equals(selectedWiFiChannelPair));
-            } else {
-                button.setVisibility(View.GONE);
-                setSelectedButton(button, false);
+        Collection<Pair<WiFiChannel, WiFiChannel>> visible = CollectionUtils.select(ids.keySet(), new PairPredicate());
+        int size = visible.size();
+        if (size > 1) {
+            Configuration configuration = MainContext.INSTANCE.getConfiguration();
+            Pair<WiFiChannel, WiFiChannel> selectedWiFiChannelPair = configuration.getWiFiChannelPair();
+            for (Pair<WiFiChannel, WiFiChannel> pair : ids.keySet()) {
+                View view = this.view.findViewById(ids.get(pair));
+                if (size > 1 && visible.contains(pair)) {
+                    view.setVisibility(View.VISIBLE);
+                    setSelectedButton(view, pair.equals(selectedWiFiChannelPair));
+                } else {
+                    view.setVisibility(View.GONE);
+                    setSelectedButton(view, false);
+                }
             }
-        }
-    }
-
-    private List<NavigationItem> getVisibleNavigationItems() {
-        Settings settings = MainContext.INSTANCE.getSettings();
-        WiFiBand wiFiBand = settings.getWiFiBand();
-        String countryCode = settings.getCountryCode();
-        WiFiChannels wiFiChannels = wiFiBand.getWiFiChannels();
-        List<NavigationItem> visible = new ArrayList<>();
-        for (NavigationItem navigationItem : navigationItems) {
-            Pair<WiFiChannel, WiFiChannel> wiFiChannelPair = navigationItem.getWiFiChannelPair();
-            if (wiFiBand.isGHZ5() && wiFiChannels.isChannelAvailable(countryCode, wiFiChannelPair.first.getChannel())) {
-                visible.add(navigationItem);
-            }
-        }
-        return visible;
-    }
-
-    private void setSelectedButton(Button button, boolean selected) {
-        if (selected) {
-            button.setBackgroundColor(ContextCompat.getColor(context, R.color.connected));
-            button.setSelected(true);
+            this.view.setVisibility(View.VISIBLE);
         } else {
-            button.setBackgroundColor(ContextCompat.getColor(context, R.color.connected_background));
-            button.setSelected(false);
+            this.view.setVisibility(View.GONE);
         }
     }
 
-    private void makeNavigationItems() {
-        for (Pair<WiFiChannel, WiFiChannel> pair : WiFiBand.GHZ5.getWiFiChannels().getWiFiChannelPairs()) {
-            navigationItems.add(makeNavigationItem(pair));
+    private void setSelectedButton(View view, boolean selected) {
+        if (selected) {
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.connected));
+            view.setSelected(true);
+        } else {
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.connected_background));
+            view.setSelected(false);
         }
     }
 
-    private NavigationItem makeNavigationItem(Pair<WiFiChannel, WiFiChannel> pair) {
-        Button button = new Button(context);
-        String text = pair.first.getChannel() + " - " + pair.second.getChannel();
-        button.setLayoutParams(getLayoutParams());
-        button.setVisibility(View.GONE);
-        button.setText(text);
-        button.setOnClickListener(new ButtonOnClickListener(pair));
-        return new NavigationItem(button, pair);
-    }
-
-    @SuppressWarnings("ResourceType")
-    @NonNull
-    private LinearLayout.LayoutParams getLayoutParams() {
-        int left = 5;
-        int top = -30;
-        if (configuration.isLargeScreen()) {
-            left = 10;
-            top = -10;
-        }
-        LinearLayout.LayoutParams params =
-            new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, TEXT_SIZE_ADJUSTMENT);
-        params.setMargins(left, top, left, top);
-        return params;
-    }
-
-    private class ButtonOnClickListener implements OnClickListener {
+    static class SetOnClickListener implements OnClickListener {
         private final Pair<WiFiChannel, WiFiChannel> wiFiChannelPair;
 
-        ButtonOnClickListener(@NonNull Pair<WiFiChannel, WiFiChannel> wiFiChannelPair) {
+        SetOnClickListener(@NonNull Pair<WiFiChannel, WiFiChannel> wiFiChannelPair) {
             this.wiFiChannelPair = wiFiChannelPair;
         }
 
         @Override
         public void onClick(View view) {
-            configuration.setWiFiChannelPair(wiFiChannelPair);
-            Scanner scanner = MainContext.INSTANCE.getScanner();
+            MainContext mainContext = MainContext.INSTANCE;
+            mainContext.getConfiguration().setWiFiChannelPair(wiFiChannelPair);
+            Scanner scanner = mainContext.getScanner();
             scanner.update();
         }
     }
 
-    class NavigationItem {
-        private final Button button;
-        private final Pair<WiFiChannel, WiFiChannel> wiFiChannelPair;
+    private class PairPredicate implements Predicate<Pair<WiFiChannel, WiFiChannel>> {
+        private final WiFiBand wiFiBand;
+        private final String countryCode;
+        private final WiFiChannels wiFiChannels;
 
-        NavigationItem(@NonNull Button button, @NonNull Pair<WiFiChannel, WiFiChannel> wiFiChannelPair) {
-            this.button = button;
-            this.wiFiChannelPair = wiFiChannelPair;
+        private PairPredicate() {
+            Settings settings = MainContext.INSTANCE.getSettings();
+            wiFiBand = settings.getWiFiBand();
+            countryCode = settings.getCountryCode();
+            wiFiChannels = wiFiBand.getWiFiChannels();
         }
 
-        Button getButton() {
-            return button;
-        }
-
-        Pair<WiFiChannel, WiFiChannel> getWiFiChannelPair() {
-            return wiFiChannelPair;
+        @Override
+        public boolean evaluate(Pair<WiFiChannel, WiFiChannel> object) {
+            return wiFiBand.isGHZ5() && wiFiChannels.isChannelAvailable(countryCode, object.first.getChannel());
         }
     }
 

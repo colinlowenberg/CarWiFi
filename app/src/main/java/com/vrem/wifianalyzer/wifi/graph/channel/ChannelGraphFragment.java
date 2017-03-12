@@ -28,10 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
 import com.jjoe64.graphview.GraphView;
-import com.vrem.wifianalyzer.Configuration;
 import com.vrem.wifianalyzer.MainContext;
 import com.vrem.wifianalyzer.R;
-import com.vrem.wifianalyzer.wifi.graph.channel.ChannelGraphNavigation.NavigationItem;
 import com.vrem.wifianalyzer.wifi.scanner.Scanner;
 
 public class ChannelGraphFragment extends Fragment {
@@ -45,23 +43,15 @@ public class ChannelGraphFragment extends Fragment {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.graphRefresh);
         swipeRefreshLayout.setOnRefreshListener(new ListViewOnRefreshListener());
 
-        Configuration configuration = MainContext.INSTANCE.getConfiguration();
-        ChannelGraphNavigation channelGraphNavigation = new ChannelGraphNavigation(getActivity(), configuration);
+        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.graphNavigation);
+        ChannelGraphNavigation channelGraphNavigation = new ChannelGraphNavigation(linearLayout, getActivity());
         channelGraphAdapter = new ChannelGraphAdapter(channelGraphNavigation);
         addGraphViews(swipeRefreshLayout, channelGraphAdapter);
-        addGraphNavigation(view, channelGraphNavigation);
 
         Scanner scanner = MainContext.INSTANCE.getScanner();
         scanner.register(channelGraphAdapter);
 
         return view;
-    }
-
-    private void addGraphNavigation(View view, ChannelGraphNavigation channelGraphNavigation) {
-        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.graphNavigation);
-        for (NavigationItem navigationItem : channelGraphNavigation.getNavigationItems()) {
-            linearLayout.addView(navigationItem.getButton());
-        }
     }
 
     private void addGraphViews(View view, ChannelGraphAdapter channelGraphAdapter) {

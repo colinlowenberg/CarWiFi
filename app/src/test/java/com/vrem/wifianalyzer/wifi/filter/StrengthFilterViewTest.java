@@ -16,39 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.vrem.wifianalyzer.wifi.band;
+package com.vrem.wifianalyzer.wifi.filter;
+
+import com.vrem.wifianalyzer.wifi.model.Strength;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
-public class WiFiBandGHZ5Test {
-
-    @Test
-    public void testGetBand() throws Exception {
-        assertEquals("5 GHz", WiFiBand.GHZ5.getBand());
-    }
+public class StrengthFilterViewTest {
 
     @Test
-    public void testFindByBand() throws Exception {
-        assertEquals(WiFiBand.GHZ5, WiFiBand.find(WiFiBand.GHZ5.ordinal()));
-    }
-
-    @Test
-    public void testFind() throws Exception {
-        assertEquals(WiFiBand.GHZ5, WiFiBand.findByFrequency(4901));
-        assertEquals(WiFiBand.GHZ5, WiFiBand.findByFrequency(5899));
-    }
-
-    @Test
-    public void testToggle() throws Exception {
-        assertEquals(WiFiBand.GHZ2, WiFiBand.GHZ5.toggle());
-    }
-
-    @Test
-    public void testIsGHZ_5() throws Exception {
-        assertTrue(WiFiBand.GHZ5.isGHZ5());
+    public void testMapping() throws Exception {
+        Strength[] strengths = Strength.values();
+        assertEquals(strengths.length, StrengthFilterView.ids.size());
+        for (Strength strength : strengths) {
+            assertNotNull(StrengthFilterView.ids.get(strength));
+        }
     }
 
 }

@@ -23,7 +23,6 @@ import android.support.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
@@ -35,7 +34,7 @@ class WiFiChannelCountryGHZ5 {
 
     WiFiChannelCountryGHZ5() {
         SortedSet<Integer> channelsSet1 = new TreeSet<>(Arrays.asList(36, 40, 44, 48, 52, 56, 60, 64));
-        SortedSet<Integer> channelsSet2 = new TreeSet<>(Arrays.asList(100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140));
+        SortedSet<Integer> channelsSet2 = new TreeSet<>(Arrays.asList(100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144));
         SortedSet<Integer> channelsSet3 = new TreeSet<>(Arrays.asList(149, 153, 157, 161, 165));
 
         SortedSet<Integer> channelsToExcludeCanada = new TreeSet<>(Arrays.asList(120, 124, 128));
@@ -63,7 +62,7 @@ class WiFiChannelCountryGHZ5 {
         if (exclude != null) {
             results.removeAll(exclude);
         }
-        return Collections.unmodifiableSortedSet(results);
+        return results;
     }
 
 }

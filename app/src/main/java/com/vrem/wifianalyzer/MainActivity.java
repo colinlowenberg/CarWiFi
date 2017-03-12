@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.vrem.util.EnumUtils;
 import com.vrem.wifianalyzer.menu.OptionMenu;
 import com.vrem.wifianalyzer.navigation.NavigationMenu;
 import com.vrem.wifianalyzer.navigation.NavigationMenuView;
@@ -151,9 +152,13 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
             reloadActivity();
         } else {
             setWiFiChannelPairs(mainContext);
-            mainContext.getScanner().update();
-            updateActionBar();
+            update();
         }
+    }
+
+    public void update() {
+        MainContext.INSTANCE.getScanner().update();
+        updateActionBar();
     }
 
     private void reloadActivity() {
@@ -180,7 +185,8 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         try {
             closeDrawer();
-            NavigationMenu.find(menuItem.getItemId()).activateNavigationMenu(this, menuItem);
+            NavigationMenu navigationMenu = EnumUtils.find(NavigationMenu.class, menuItem.getItemId(), NavigationMenu.ACCESS_POINTS);
+            navigationMenu.activateNavigationMenu(this, menuItem);
         } catch (Exception e) {
             reloadActivity();
         }

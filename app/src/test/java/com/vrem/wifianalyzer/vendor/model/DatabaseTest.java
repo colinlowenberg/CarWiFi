@@ -184,7 +184,7 @@ public class DatabaseTest {
     }
 
     class DatabaseMock extends Database {
-        public DatabaseMock(@NonNull Context context) {
+        DatabaseMock(@NonNull Context context) {
             super(context);
         }
 
