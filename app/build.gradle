@@ -21,7 +21,7 @@ apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '25.0.3'
 
     defaultConfig {
         applicationId "com.vrem.wifianalyzer.location"
@@ -53,7 +53,7 @@ android {
 }
 
 jacoco {
-    toolVersion "0.7.8"
+    toolVersion "0.7.9"
 }
 
 jacocoAndroidUnitTestReport {
@@ -77,8 +77,8 @@ if (project.hasProperty('keyAlias')) {
 dependencies {
     // Compile Build Dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'org.apache.commons:commons-collections4:4.1'
     compile 'com.jjoe64:graphview:4.2.1'
@@ -86,9 +86,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-module-junit4:1.6.6'
     testCompile 'org.powermock:powermock-api-mockito:1.6.6'
-    testCompile 'com.googlecode.junit-toolbox:junit-toolbox:2.2'
-    testCompile 'org.robolectric:robolectric:3.3.1'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.1'
+    testCompile 'com.googlecode.junit-toolbox:junit-toolbox:2.3'
+    testCompile 'org.robolectric:robolectric:3.3.2'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
 }
 
