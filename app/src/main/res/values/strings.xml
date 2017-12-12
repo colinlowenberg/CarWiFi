@@ -19,8 +19,8 @@
 
 <resources>
     <!-- application start -->
-    <string name="app_name" translatable="false">WiFiAnalyzer</string>
-    <string name="app_company_name" translatable="false">VREM Software Development</string>
+    <string name="app_name" translatable="false">Car Detector</string>
+    <string name="app_company_name" translatable="false">GM</string>
     <string name="app_copyright">Copyright \u00A9 2015 \u002D 2017</string>
     <string name="app_url" translatable="false">https://vremsoftwaredevelopment.github.io/WiFiAnalyzer</string>
     <!-- application end -->
@@ -29,7 +29,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- action start -->
-    <string name="action_access_points">Access Points</string>
+    <string name="action_access_points">Cars with WiFi</string>
     <string name="action_channel_rating">Channel Rating</string>
     <string name="action_channel_graph">Channel Graph</string>
     <string name="action_time_graph">Time Graph</string>
@@ -59,7 +59,7 @@
     <string name="channel_rating_best_alternative">, try alternative WiFi Band</string>
     <string name="channel_rating_heading_rating">Channel Rating</string>
     <string name="channel_rating_heading_number">Channel Number</string>
-    <string name="channel_rating_heading_count">Access Point Count</string>
+    <string name="channel_rating_heading_count">Car Count</string>
     <string name="channel_short_name">CH</string>
 
     <string name="graph_channel_axis_x">WiFi Channels</string>
@@ -84,17 +84,17 @@
     <integer name="scan_interval_max" translatable="false">30</integer>
     <integer name="scan_interval_default" translatable="false">5</integer>
 
-    <string name="sort_by_title">Sort Access Points By</string>
+    <string name="sort_by_title">Sort Cars By</string>
     <string name="sort_by_summary" translatable="false">%s</string>
     <string name="sort_by_key" translatable="false">sort_by</string>
     <string name="sort_by_default" translatable="false">0</string>
 
-    <string name="group_by_title">Group Access Points By</string>
+    <string name="group_by_title">Group Cars By</string>
     <string name="group_by_summary" translatable="false">%s</string>
     <string name="group_by_key" translatable="false">group_by</string>
     <string name="group_by_default" translatable="false">0</string>
 
-    <string name="ap_view_title">Access Point Display</string>
+    <string name="ap_view_title">Car Display</string>
     <string name="ap_view_summary" translatable="false">%s</string>
     <string name="ap_view_key" translatable="false">view</string>
     <string name="ap_view_default" translatable="false">0</string>
@@ -134,7 +134,7 @@
     <!-- settings end -->
 
     <!-- about start -->
-    <string name="about_application_name" translatable="false">WiFiAnalyzer (open-source)</string>
+    <string name="about_application_name" translatable="false">Car WiFi (open-source)</string>
     <string name="about_license_title">License:</string>
     <string name="about_license_name">Licensed under the GPLv3</string>
     <string name="about_license_url" translatable="false">http://www.gnu.org/licenses/gpl-3.0.html</string>
