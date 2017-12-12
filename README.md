@@ -1,6 +1,6 @@
 <h1>Vehicle WiFi Service Zone Detector App <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/ic_launcher-web.png" alt="Application Icon" width="45" height="45"></h1>
 
-### This is a sample app to detect nearby vehicles with WiFi access points built-in. You can "fork" the source code and build your own custom application for detecting a specific type of vehicle based on the MAC address. The only changes that I have made to this repository are to implement the MAC address filtering feature. You will still need to rebrand and eliminate information from the app to make it simplier and easier to use.
+### This is a sample app to detect nearby vehicles with WiFi access points built-in. You can "fork" the source code and build your own custom application for detecting a specific type of vehicle based on the MAC address. The only changes that I have made to this repository are to eliminate information from the app to make it simplier and easier to use. You will still need to implement the MAC address filtering to only display WiFi access points from a specific OUI in the MAC address.
 
 This app was created using a sample code repository called WiFi Analyzer. The original app was designed for examining surrounding WiFi networks, measuring their signal strength as well as identifying crowded channels.
 
@@ -13,7 +13,9 @@ This app was created using a sample code repository called WiFi Analyzer. The or
 [<img src="https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/devportal2/res/images/amazon-underground-app-us-white.png" alt="Get it at Amazon Store" height="70">
 ](https://www.amazon.com/VREM-Software-Development-WiFiAnalyzer-open-source/dp/B06XZT7RYD)
 
-This is the official repository of WiFi Analyzer.
+Here are screenshots of the new app:
+
+Here are screenshots of the original app:
 
 <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/screenshots/feature-graphic.png" alt="Feature Graphic - Dark Theme" height="200">
 <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/screenshots/feature-graphic-light.png" alt="Feature Graphic - Light Theme" height="200">
