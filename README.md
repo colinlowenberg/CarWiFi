@@ -1,6 +1,6 @@
 <h1>Vehicle WiFi Service Zone Detector App <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/ic_launcher-web.png" alt="Application Icon" width="45" height="45"></h1>
 
-### This is a sample app to detect nearby vehicles with WiFi access points built-in. You can "fork" the source code and build your own custom application for detecting a specific type of vehicle based on the MAC address. The only changes that I have made to this repository are to eliminate information from the app to make it simplier and easier to use. You will still need to implement the MAC address filtering to only display WiFi access points from a specific OUI in the MAC address.
+### This is a sample app to detect nearby vehicles with WiFi access points built-in. You can "fork" the source code and build your own custom application for detecting a specific type of vehicle based on the MAC address. The only changes that I have made to this repository are to customize a few pages to make it more specific to Car WiFi. You will still need to implement the MAC address filtering to only display WiFi access points from a specific OUI in the MAC address. You will also need to remove any menu options that you do not want in your app.
 
 This app was created using a sample code repository called WiFi Analyzer. The original app was designed for examining surrounding WiFi networks, measuring their signal strength as well as identifying crowded channels.
 
