@@ -1,8 +1,8 @@
-<h1>Car WiFi Service Zone Detector App <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/ic_launcher-web.png" alt="Application Icon" width="45" height="45"></h1>
+<h1>Vehicle WiFi Service Zone Detector App <img src="https://github.com/VREMSoftwareDevelopment/WiFiAnalyzer/raw/master/app/src/main/ic_launcher-web.png" alt="Application Icon" width="45" height="45"></h1>
 
-### News: We are happy to announce that Android Authority recently selected WiFi Analyzer to be one of the 15 most useful apps for Android, [click here](https://www.androidauthority.com/most-useful-apps-for-android-603100/amp) to learn more about it!
+### This is a sample app to detect nearby vehicles with WiFi access points built-in. You can "fork" the source code and build your own custom application for detecting a specific type of vehicle based on the MAC address. The only changes that I have made to this repository are to implement the MAC address filtering feature. You will still need to rebrand and eliminate information from the app to make it simplier and easier to use.
 
-Optimize your WiFi network using WiFi Analyzer by examining surrounding WiFi networks, measuring their signal strength as well as identifying crowded channels.
+This app was created using a sample code repository called WiFi Analyzer. The original app was designed for examining surrounding WiFi networks, measuring their signal strength as well as identifying crowded channels.
 
 ### Android OS Requirements
 * Minimum: Jelly Bean (Version 4.1 - API 16)
